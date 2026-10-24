@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { SITE } from "@/lib/site";
+import { IS_DEMO_HOST, SITE } from "@/lib/site";
 import { SERVICES } from "@/lib/services";
 import { CartProvider } from "@/components/shop/cart";
 
@@ -36,14 +36,23 @@ export const metadata: Metadata = {
     "starter locs Midlothian",
     "loc detox",
   ],
+  // Share card (iMessage, Android Messages, WhatsApp, Facebook, Instagram DMs). No og:url on purpose:
+  // previews always open exactly the link that was sent.
   openGraph: {
     type: "website",
     siteName: SITE.name,
     locale: "en_US",
-    url: "/",
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "TMack The Loctician — Healthy locs start here" }],
+    title: "TMack The Loctician — Healthy locs start here.",
+    description: "Master Loctician in Midlothian, VA · Retwists, microlocs, interlocking & loc reconstruction · TMack Crown Care products · 5.0★ on Google.",
+    images: [{ url: "/og/tmack-site.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "TMack The Loctician and TMack Crown Care logos — Healthy locs start here" }],
   },
-  twitter: { card: "summary_large_image", images: ["/og.jpg"] },
+  twitter: {
+    card: "summary_large_image",
+    title: "TMack The Loctician — Healthy locs start here.",
+    description: "Master Loctician in Midlothian, VA · Retwists, microlocs, interlocking & loc reconstruction · 5.0★ on Google.",
+    images: ["/og/tmack-site.jpg"],
+  },
+  ...(IS_DEMO_HOST ? { robots: { index: false, follow: false } } : {}),
   alternates: { canonical: "/" },
   icons: {
     icon: [

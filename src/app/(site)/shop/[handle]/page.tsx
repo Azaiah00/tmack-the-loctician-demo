@@ -21,7 +21,14 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
     title: `${p.name}${p.size ? ` (${p.size})` : ""} — TMack Crown Care Collection`,
     description: `${p.short} ${p.description}`.slice(0, 158),
     alternates: { canonical: `/shop/${p.handle}` },
-    openGraph: { images: [{ url: p.image, alt: p.imageAlt }] },
+    openGraph: {
+      type: "website",
+      siteName: "TMack The Loctician",
+      title: `${p.name} — TMack Crown Care Collection`,
+      description: p.short,
+      images: [{ url: p.image, alt: p.imageAlt }],
+    },
+    twitter: { card: "summary_large_image", title: `${p.name} — TMack Crown Care Collection`, images: [p.image] },
   };
 }
 

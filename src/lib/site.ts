@@ -9,7 +9,12 @@ export const SITE = {
   legalName: "TMack The Loctician LLC",
   owner: "TMack",
   title: "Master Loctician & Certified Micro Loc Specialist",
-  url: "https://tmacktheloctician.com",
+  /**
+   * The address every share preview, canonical tag and sitemap points to.
+   * Defaults to the live demo on Netlify. At launch, set NEXT_PUBLIC_SITE_URL=https://tmacktheloctician.com
+   * in Netlify → Site configuration → Environment variables and redeploy.
+   */
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://tmack-the-loctician-demo.netlify.app").replace(/\/$/, ""),
   phone: "(804) 464-8208",
   phoneHref: "tel:+18044648208",
   email: "info@tmackcrowncare.com",
@@ -55,6 +60,9 @@ export const SITE = {
   paymentMethods: ["Apple Pay", "Cash App ($TMacktheloctician)", "PayPal (Tmacktheloctician)"],
   bnpl: ["Klarna", "Affirm"],
 } as const;
+
+/** True while the site runs on the Netlify demo address (kept out of Google so it never competes with the real domain). */
+export const IS_DEMO_HOST = SITE.url.includes("netlify.app");
 
 /**
  * Which booking experience the site's "Book" buttons open.

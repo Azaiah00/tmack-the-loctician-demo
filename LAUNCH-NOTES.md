@@ -15,7 +15,8 @@
 12. **Instagram/TikTok handles.** @tmacktheloctician (IG, TikTok link in bio paa.ge/tmacktheloctician). Shop IG @TMack_crowncare (from the spritz label). Facebook page URL not found publicly — add if she wants it.
 13. **Google Maps link** uses her listing CID (`maps?cid=14928887747521058894`). Verify it opens her profile.
 14. **Shop checkout.** The bag sends customers to her real Shopify checkout with items pre-filled (verified working: 2 items → $39.98). Shopify checkout offers Ship or Pickup — confirm pickup location/details.
-15. **Domain.** tmacktheloctician.com currently redirects to Acuity. Repoint DNS to Netlify at launch (all canonicals/sitemap already use https://tmacktheloctician.com).
+15. **Domain.** tmacktheloctician.com currently redirects to Acuity. Until launch, the site's address is the demo (https://tmack-the-loctician-demo.netlify.app): share previews, canonical tags, sitemap and schema all point there, and the demo is kept out of Google (noindex) so it never competes with the real domain. **At launch:** point the domain's DNS at Netlify, add `NEXT_PUBLIC_SITE_URL=https://tmacktheloctician.com` in Netlify → Site configuration → Environment variables, and redeploy. Indexing turns on automatically and every preview switches to the real domain.
+16. **Text/social share cards.** `public/og/tmack-site.jpg` (home + all site pages), `tmack-booking.jpg` (every /portal link), `tmack-crown-care.jpg` (/shop); product pages use the product photo. No og:url is set on purpose, so a texted link always opens exactly the link that was sent. Phones cache previews per link, so when testing a new card, text a link you haven't sent before (e.g. add `?v=2`).
 
 ## Booking portal (demo → live)
 - Demo today: fictional clients/appointments, demo sign-in, demo card (no charge), resets on refresh. Every demo surface is labeled.

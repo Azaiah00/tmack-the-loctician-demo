@@ -14,6 +14,14 @@ export const metadata: Metadata = {
   description:
     "All-natural loc care from TMack The Loctician: Loc Moisturizer Spritz, Chebe Growth Oil and satin bonnets. Free shipping over $100. Code TMACK10 for 10% off 2+ items.",
   alternates: { canonical: "/shop" },
+  openGraph: {
+    type: "website",
+    siteName: "TMack The Loctician",
+    title: "TMack Crown Care Collection — Crown Care, at home.",
+    description: "All-natural loc spritz, Chebe growth oil & satin bonnets — made by a master loctician. Free shipping over $100.",
+    images: [{ url: "/og/tmack-crown-care.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "TMack Crown Care Loc Moisturizer Spritz and Chebe Growth Oil with the TMack logos" }],
+  },
+  twitter: { card: "summary_large_image", title: "TMack Crown Care Collection — Crown Care, at home.", images: ["/og/tmack-crown-care.jpg"] },
 };
 
 export default function ShopPage() {
