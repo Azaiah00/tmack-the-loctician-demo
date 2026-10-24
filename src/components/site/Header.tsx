@@ -48,7 +48,7 @@ export function Header() {
             </span>
             <span className="leading-none">
               <span className="display block text-[1.55rem] text-rosegold">TMack</span>
-              <span className="eyebrow block text-[0.56rem] text-champagne/80">The Loctician</span>
+              <span className="eyebrow block text-[0.62rem] text-champagne/80">The Loctician</span>
             </span>
           </Link>
 
@@ -69,9 +69,9 @@ export function Header() {
           </nav>
 
           <div className="ml-auto flex items-center gap-2 lg:ml-4">
-            <Link href="/portal" className="hidden items-center gap-2 rounded-full border border-rose/40 px-3.5 py-2 text-xs font-semibold text-champagne transition hover:border-pink hover:text-pearl md:inline-flex">
+            <Link href="/portal" className="hidden min-h-10 items-center gap-2 rounded-full border border-rose/40 px-3.5 text-xs font-semibold text-champagne transition hover:border-pink hover:text-pearl md:inline-flex">
               <LayoutDashboard className="size-4 text-pink" aria-hidden /> Booking Portal
-              <span className="rounded-full bg-rose/20 px-1.5 py-0.5 text-[9px] tracking-widest text-rose">DEMO</span>
+              <span className="rounded-full bg-rose/20 px-1.5 py-0.5 text-[10px] tracking-widest text-rose">DEMO</span>
             </Link>
             <button onClick={() => setOpen(true)} className="relative grid size-11 place-items-center rounded-full text-champagne hover:bg-white/5" aria-label={`Open bag, ${count} items`}>
               <ShoppingBag className="size-5" />
@@ -92,7 +92,7 @@ export function Header() {
       <AnimatePresence>
         {menu && (
           <motion.div
-            className="fixed inset-0 z-[70] flex flex-col bg-ink/97 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-[70] flex flex-col overflow-y-auto overscroll-contain bg-ink/97 backdrop-blur-xl lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -109,20 +109,20 @@ export function Header() {
             <nav aria-label="Mobile" className="wrap mt-6 flex flex-col">
               {[{ href: "/", label: "Home" }, ...NAV].map((n, i) => (
                 <motion.div key={n.href} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * i }}>
-                  <Link href={n.href} onClick={() => setMenu(false)} className="display block border-b border-rose/10 py-4 text-4xl text-champagne">
+                  <Link href={n.href} onClick={() => setMenu(false)} className="display block border-b border-rose/10 py-3.5 text-4xl text-champagne [@media(max-height:600px)]:py-2 [@media(max-height:600px)]:text-3xl">
                     {n.label}
                   </Link>
                 </motion.div>
               ))}
             </nav>
-            <div className="wrap mt-auto grid gap-3 pb-10">
+            <div className="wrap mt-auto grid gap-3 pb-10 pt-8">
               <Link href={BOOK_HREF} onClick={() => setMenu(false)} className="btn btn-primary w-full">
                 <CalendarHeart className="size-4" aria-hidden /> Book your appointment
               </Link>
               <Link href="/portal" onClick={() => setMenu(false)} className="btn btn-ghost w-full">
                 <LayoutDashboard className="size-4" aria-hidden /> Booking portal (demo)
               </Link>
-              <a href={SITE.phoneHref} className="text-center text-sm text-champagne/70">
+              <a href={SITE.phoneHref} className="py-3 text-center text-sm text-champagne/70">
                 Call or text {SITE.phone}
               </a>
             </div>

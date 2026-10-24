@@ -46,7 +46,7 @@ export function PortalSignIn() {
       <div className="flex flex-col px-5 py-8 sm:px-10">
         <div className="flex items-center justify-between">
           <PortalLogo href="/" />
-          <Link href="/" className="inline-flex items-center gap-1 text-sm text-champagne/70 hover:text-pearl">
+          <Link href="/" className="inline-flex min-h-11 items-center gap-1 text-sm text-champagne/70 hover:text-pearl">
             <ArrowLeft className="size-4" aria-hidden /> Website
           </Link>
         </div>

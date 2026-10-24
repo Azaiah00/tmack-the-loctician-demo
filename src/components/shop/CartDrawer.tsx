@@ -101,19 +101,19 @@ export function CartDrawer() {
                           <p className="text-xs text-mute">{p.variants.length > 1 ? v?.label : p.size}</p>
                           <div className="mt-2 flex items-center justify-between">
                             <div className="flex items-center rounded-full border border-rose-deep/25">
-                              <button className="grid size-9 place-items-center" onClick={() => setQty(l.variantId, l.qty - 1)} aria-label={`Decrease ${p.name} quantity`}>
+                              <button className="grid size-11 place-items-center" onClick={() => setQty(l.variantId, l.qty - 1)} aria-label={`Decrease ${p.name} quantity`}>
                                 <Minus className="size-3.5" />
                               </button>
                               <span className="w-6 text-center text-sm tabular-nums" aria-live="polite">
                                 {l.qty}
                               </span>
-                              <button className="grid size-9 place-items-center" onClick={() => setQty(l.variantId, l.qty + 1)} aria-label={`Increase ${p.name} quantity`}>
+                              <button className="grid size-11 place-items-center" onClick={() => setQty(l.variantId, l.qty + 1)} aria-label={`Increase ${p.name} quantity`}>
                                 <Plus className="size-3.5" />
                               </button>
                             </div>
                             <p className="font-semibold tabular-nums">{fmtMoney(Number((p.price * l.qty).toFixed(2)))}</p>
                           </div>
-                          <button onClick={() => remove(l.variantId)} className="mt-1 text-xs text-mute underline-offset-2 hover:underline">
+                          <button onClick={() => remove(l.variantId)} className="mt-1 inline-flex min-h-10 items-center pr-3 text-xs text-mute underline-offset-2 hover:underline">
                             Remove
                           </button>
                         </div>

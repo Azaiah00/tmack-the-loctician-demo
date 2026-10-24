@@ -90,15 +90,43 @@ export function OwnerAppointments() {
         </label>
       </div>
 
-      <div className="card-night mt-5 overflow-x-auto">
-        <table className="w-full min-w-[720px] text-left text-sm">
+      {/* Phones: tappable cards. Tablet/desktop: full table. */}
+      <ul className="mt-5 space-y-3 md:hidden">
+        {list.slice(0, 120).map((a) => {
+          const c = clients.find((x) => x.id === a.clientId);
+          return (
+            <li key={a.id}>
+              <button onClick={() => setOpen(a)} className="card-night flex w-full items-start justify-between gap-3 p-4 text-left">
+                <span className="min-w-0">
+                  <span className="block font-semibold text-pearl">{clientName(c)}</span>
+                  <span className="block text-xs text-champagne/60">
+                    {fmtDate(a.start)} · {fmtTime(a.start)}
+                  </span>
+                  <span className="mt-1.5 block text-sm text-champagne/85">
+                    {SERVICE_BY_ID[a.serviceId].name}
+                    {a.addOnIds.length > 0 && <span className="ml-1 text-xs text-champagne/50">+{a.addOnIds.length}</span>}
+                  </span>
+                </span>
+                <span className="flex shrink-0 flex-col items-end gap-2">
+                  <span className="tabular-nums text-pearl">{money(a.price)}</span>
+                  <StatusBadge s={a.status} />
+                </span>
+              </button>
+            </li>
+          );
+        })}
+        {list.length === 0 && <li className="card-night p-10 text-center text-champagne/60">No appointments match.</li>}
+      </ul>
+
+      <div className="card-night mt-5 hidden overflow-x-auto md:block">
+        <table className="w-full min-w-[640px] text-left text-sm">
           <thead className="border-b border-rose/15 text-xs uppercase tracking-[0.14em] text-champagne/50">
             <tr>
-              <th scope="col" className="px-5 py-3 font-semibold">When</th>
+              <th scope="col" className="px-4 py-3 font-semibold">When</th>
               <th scope="col" className="px-3 py-3 font-semibold">Client</th>
               <th scope="col" className="px-3 py-3 font-semibold">Service</th>
               <th scope="col" className="px-3 py-3 font-semibold">Status</th>
-              <th scope="col" className="px-5 py-3 text-right font-semibold">Total</th>
+              <th scope="col" className="px-4 py-3 text-right font-semibold">Total</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-rose/10">
@@ -106,8 +134,8 @@ export function OwnerAppointments() {
               const c = clients.find((x) => x.id === a.clientId);
               return (
                 <tr key={a.id} onClick={() => setOpen(a)} className="cursor-pointer hover:bg-white/[0.03]">
-                  <td className="px-5 py-3">
-                    <button className="text-left" onClick={() => setOpen(a)}>
+                  <td className="whitespace-nowrap px-4 py-3">
+                    <button className="min-h-11 py-1 text-left" onClick={() => setOpen(a)}>
                       <span className="block text-pearl">{fmtDate(a.start)}</span>
                       <span className="block text-xs text-champagne/55">{fmtTime(a.start)}</span>
                     </button>
@@ -123,7 +151,7 @@ export function OwnerAppointments() {
                   <td className="px-3 py-3">
                     <StatusBadge s={a.status} />
                   </td>
-                  <td className="px-5 py-3 text-right tabular-nums text-pearl">{money(a.price)}</td>
+                  <td className="px-4 py-3 text-right tabular-nums text-pearl">{money(a.price)}</td>
                 </tr>
               );
             })}

@@ -83,7 +83,7 @@ export function OwnerFinances() {
         <Stat label="Deposits" value={money(Math.round(f.deposits))} sub={`${money(f.noShowKept)} kept from no-shows`} icon={Wallet} tone="rose" />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
+      <div className="grid [&>*]:min-w-0 gap-6 xl:grid-cols-[1.4fr_1fr]">
         <Panel title="Revenue by week">
           <Bars data={f.weeks} height={200} />
         </Panel>
@@ -107,13 +107,13 @@ export function OwnerFinances() {
         </Panel>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid [&>*]:min-w-0 gap-6 xl:grid-cols-2">
         <Panel title="By service">
           <ul className="space-y-3">
             {f.bySvc.map(([id, v]) => (
               <li key={id}>
-                <div className="flex justify-between text-sm">
-                  <span className="truncate text-champagne/85">{SERVICE_BY_ID[id].name}</span>
+                <div className="flex justify-between gap-3 text-sm">
+                  <span className="min-w-0 text-champagne/85">{SERVICE_BY_ID[id].name}</span>
                   <span className="tabular-nums text-pearl">{money(Math.round(v))}</span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-ink">
@@ -141,9 +141,9 @@ export function OwnerFinances() {
       </div>
 
       <Panel title="Transactions">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[560px] text-left text-sm">
-            <thead className="text-xs uppercase tracking-[0.14em] text-champagne/50">
+        <div className="md:overflow-x-auto">
+          <table className="block w-full text-left text-sm md:table md:min-w-[560px]">
+            <thead className="hidden text-xs uppercase tracking-[0.14em] text-champagne/50 md:table-header-group">
               <tr>
                 <th scope="col" className="py-2 font-semibold">Date</th>
                 <th scope="col" className="py-2 font-semibold">Description</th>
@@ -151,16 +151,16 @@ export function OwnerFinances() {
                 <th scope="col" className="py-2 text-right font-semibold">Amount</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-rose/10">
+            <tbody className="block divide-y divide-rose/10 md:table-row-group">
               {f.pay.slice(0, 40).map((p) => (
-                <tr key={p.id}>
-                  <td className="py-2.5 text-champagne/70">{fmtDate(p.at, { month: "short", day: "numeric" })}</td>
-                  <td className="py-2.5 text-pearl">
+                <tr key={p.id} className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 py-3 md:table-row md:py-0">
+                  <td className="col-start-1 row-start-2 text-xs text-champagne/60 md:whitespace-nowrap md:py-2.5 md:pr-3 md:text-sm md:text-champagne/70">{fmtDate(p.at, { month: "short", day: "numeric" })}</td>
+                  <td className="col-start-1 row-start-1 min-w-0 text-pearl md:py-2.5 md:pr-3">
                     {p.label}
-                    <span className={cn("ml-2 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase", p.kind === "product" ? "bg-rose/15 text-rose" : p.kind === "deposit" ? "bg-ok/15 text-ok" : "bg-pink/15 text-pink")}>{p.kind}</span>
+                    <span className={cn("ml-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase", p.kind === "product" ? "bg-rose/15 text-rose" : p.kind === "deposit" ? "bg-ok/15 text-ok" : "bg-pink/15 text-pink")}>{p.kind}</span>
                   </td>
-                  <td className="py-2.5 text-champagne/70">{p.method}</td>
-                  <td className="py-2.5 text-right tabular-nums text-pearl">{money(p.amount)}</td>
+                  <td className="col-start-2 row-start-2 text-right text-xs text-champagne/60 md:py-2.5 md:pr-3 md:text-left md:text-sm md:text-champagne/70">{p.method}</td>
+                  <td className="col-start-2 row-start-1 text-right tabular-nums text-pearl md:py-2.5">{money(p.amount)}</td>
                 </tr>
               ))}
             </tbody>

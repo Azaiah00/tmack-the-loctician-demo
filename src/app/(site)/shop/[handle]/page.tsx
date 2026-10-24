@@ -52,7 +52,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
       <section className="bg-ink pb-20 pt-28 lg:pt-32">
         <div className="wrap">
-          <Link href="/shop" className="inline-flex items-center gap-1 text-sm text-champagne/70 hover:text-pearl">
+          <Link href="/shop" className="inline-flex min-h-11 items-center gap-1 text-sm text-champagne/70 hover:text-pearl">
             <ChevronLeft className="size-4" aria-hidden /> All products
           </Link>
           <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-16">

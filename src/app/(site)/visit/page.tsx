@@ -70,13 +70,13 @@ export default function VisitPage() {
             <h2 className="display mt-4 text-3xl text-pearl">Contact</h2>
             <ul className="mt-3 space-y-3 text-champagne/85">
               <li>
-                <a href={SITE.phoneHref} className="hover:text-pearl">
+                <a href={SITE.phoneHref} className="-my-2.5 inline-block py-2.5 hover:text-pearl">
                   Call or text {SITE.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="size-4 text-rose" aria-hidden />
-                <a href={`mailto:${SITE.email}`} className="break-all hover:text-pearl">
+                <a href={`mailto:${SITE.email}`} className="-my-2.5 inline-block break-all py-2.5 hover:text-pearl">
                   {SITE.email}
                 </a>
               </li>

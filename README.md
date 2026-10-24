@@ -5,7 +5,7 @@ A Couture House Co. build for **TMack The Loctician™** (Master Loctician & Cer
 ## What’s inside
 | Area | Route | Notes |
 |---|---|---|
-| Home | `/` | Glitter line-art hero that draws itself and turns around on scroll; reconstruction before/after slider; services; method; meet TMack; gallery; Crown Care shop; real Google reviews; studio; FAQ |
+| Home | `/` | Glitter line-art hero that draws itself and turns around in a continuous loop (`HERO_MODE` switches back to the scroll version); reconstruction before/after slider; services; method; meet TMack; gallery; Crown Care shop; real Google reviews; studio; FAQ |
 | Services & prices | `/services` | Her full Acuity menu + every add-on, deposits, JSON-LD |
 | Gallery | `/gallery` | 17 real client photos, filters, lightbox |
 | Shop | `/shop`, `/shop/[product]` | Her 6 real Crown Care products; bag checks out on her **live Shopify** store in one step |

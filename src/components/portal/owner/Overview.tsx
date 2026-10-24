@@ -77,14 +77,14 @@ export function OwnerOverview() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+      <div className="grid [&>*]:min-w-0 grid-cols-2 gap-4 xl:grid-cols-4">
         <Stat label="Today" value={String(d.todayList.length)} sub={`appointment${d.todayList.length === 1 ? "" : "s"}`} icon={CalendarCheck2} />
         <Stat label="This week" value={money(Math.round(d.week.total))} sub={`${d.week.appts} bookings`} icon={CircleDollarSign} />
         <Stat label="Month to date" value={money(Math.round(d.month.total))} sub={<span className={growth >= 0 ? "text-ok" : "text-bad"}>{growth >= 0 ? "▲" : "▼"} {Math.abs(growth).toFixed(0)}% vs same point last month</span>} icon={CircleDollarSign} tone="rose" />
         <Stat label="Rebook rate" value={`${d.rebook.toFixed(0)}%`} sub={`No-shows ${d.noShowRate.toFixed(1)}% · 60 days`} icon={Repeat2} tone="rose" />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.3fr_1fr]">
+      <div className="grid [&>*]:min-w-0 gap-6 xl:grid-cols-[1.3fr_1fr]">
         <Panel
           title={d.todayList.length ? "Today’s chair" : `Next up · ${fmtDate(d.chairDay)}`}
           action={<span className="text-xs text-champagne/50">{d.todayList.length ? "Tap to manage" : "Studio closed today"}</span>}
@@ -99,8 +99,8 @@ export function OwnerOverview() {
                     <span className="w-12 shrink-0 text-right text-xs font-semibold tabular-nums text-champagne/70">{fmtTime(a.start).replace(" ", " ")}</span>
                     <span className="relative z-10 size-2.5 shrink-0 rounded-full bg-pink ring-4 ring-garnet" aria-hidden />
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate font-semibold text-pearl">{name(a.clientId)}</span>
-                      <span className="block truncate text-xs text-champagne/60">
+                      <span className="block font-semibold text-pearl">{name(a.clientId)}</span>
+                      <span className="block text-xs leading-snug text-champagne/60">
                         {SERVICE_BY_ID[a.serviceId].name} · {fmtDuration(a.minutes)}
                       </span>
                     </span>
@@ -112,7 +112,7 @@ export function OwnerOverview() {
           )}
         </Panel>
 
-        <Panel title="Revenue · 8 weeks" action={<Link href="/portal/owner/finances" className="text-xs font-semibold text-pink">Finances</Link>}>
+        <Panel title="Revenue · 8 weeks" action={<Link href="/portal/owner/finances" className="-my-2 -mr-2 inline-flex min-h-10 items-center px-2 text-xs font-semibold text-pink">Finances</Link>}>
           <Bars data={d.weeks} />
           <div className="mt-4 flex gap-4 text-xs text-champagne/60">
             <span className="flex items-center gap-1.5">
@@ -125,8 +125,8 @@ export function OwnerOverview() {
         </Panel>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-3">
-        <Panel title="Coming up" action={<Link href="/portal/owner/appointments" className="text-xs font-semibold text-pink">All</Link>}>
+      <div className="grid [&>*]:min-w-0 gap-6 xl:grid-cols-3">
+        <Panel title="Coming up" action={<Link href="/portal/owner/appointments" className="-my-2 -mr-2 inline-flex min-h-10 min-w-10 items-center justify-center px-2 text-xs font-semibold text-pink">All</Link>}>
           <ul className="divide-y divide-rose/10">
             {d.upcoming.map((a) => (
               <li key={a.id}>
@@ -155,7 +155,7 @@ export function OwnerOverview() {
                   </span>
                   <span className="block text-xs text-champagne/55">Last visit {fmtDate(last)}</span>
                 </span>
-                <button onClick={() => toast(`Rebook text sent to ${c.first} (demo)`)} className="rounded-full border border-pink/40 px-3 py-1.5 text-xs font-semibold text-pink hover:bg-pink/10">
+                <button onClick={() => toast(`Rebook text sent to ${c.first} (demo)`)} className="min-h-10 shrink-0 rounded-full border border-pink/40 px-4 text-xs font-semibold text-pink hover:bg-pink/10">
                   Nudge
                 </button>
               </li>

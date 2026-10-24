@@ -17,7 +17,7 @@ export function Footer() {
             </span>
             <div>
               <p className="display text-3xl text-rosegold">TMack</p>
-              <p className="eyebrow text-[0.6rem] text-champagne/70">The Loctician™</p>
+              <p className="eyebrow text-[0.64rem] text-champagne/70">The Loctician™</p>
             </div>
           </div>
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-mute-dark">
@@ -72,13 +72,13 @@ export function Footer() {
             </li>
             <li className="flex gap-3">
               <Phone className="mt-0.5 size-4 shrink-0 text-pink" aria-hidden />
-              <a href={SITE.phoneHref} className="hover:text-pearl">
+              <a href={SITE.phoneHref} className="-my-2.5 inline-block py-2.5 hover:text-pearl">
                 {SITE.phone}
               </a>
             </li>
             <li className="flex gap-3">
               <Mail className="mt-0.5 size-4 shrink-0 text-pink" aria-hidden />
-              <a href={`mailto:${SITE.email}`} className="break-all hover:text-pearl">
+              <a href={`mailto:${SITE.email}`} className="-my-2.5 inline-block break-all py-2.5 hover:text-pearl">
                 {SITE.email}
               </a>
             </li>

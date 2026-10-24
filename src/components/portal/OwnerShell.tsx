@@ -63,28 +63,32 @@ export function OwnerShell({ children }: { children: React.ReactNode }) {
     </nav>
   );
 
+  const extras = (
+    <div className="space-y-1 border-t border-rose/15 pt-4 text-sm">
+      <Link href="/portal/book" className="flex min-h-11 items-center gap-2 text-champagne/70 hover:text-pearl">
+        <CalendarHeart className="size-4" aria-hidden /> Client booking view
+      </Link>
+      <Link href="/" className="flex min-h-11 items-center gap-2 text-champagne/70 hover:text-pearl">
+        <ExternalLink className="size-4" aria-hidden /> View website
+      </Link>
+      <button
+        onClick={() => {
+          signOut();
+          router.push("/portal");
+        }}
+        className="flex min-h-11 w-full items-center gap-2 text-champagne/70 hover:text-pearl"
+      >
+        <LogOut className="size-4" aria-hidden /> Sign out
+      </button>
+    </div>
+  );
+
   return (
     <div className="lg:grid lg:grid-cols-[260px_1fr]">
       <aside className="sticky top-0 hidden h-[calc(100svh-28px)] flex-col border-r border-rose/15 bg-garnet p-5 lg:flex">
         <PortalLogo href="/portal/owner" sub="Owner portal" />
         <div className="mt-8 flex-1">{nav}</div>
-        <div className="space-y-2 border-t border-rose/15 pt-4 text-sm">
-          <Link href="/portal/book" className="flex min-h-10 items-center gap-2 text-champagne/70 hover:text-pearl">
-            <CalendarHeart className="size-4" aria-hidden /> Client booking view
-          </Link>
-          <Link href="/" className="flex min-h-10 items-center gap-2 text-champagne/70 hover:text-pearl">
-            <ExternalLink className="size-4" aria-hidden /> View website
-          </Link>
-          <button
-            onClick={() => {
-              signOut();
-              router.push("/portal");
-            }}
-            className="flex min-h-10 items-center gap-2 text-champagne/70 hover:text-pearl"
-          >
-            <LogOut className="size-4" aria-hidden /> Sign out
-          </button>
-        </div>
+        {extras}
       </aside>
 
       <div className="min-w-0">
@@ -95,16 +99,17 @@ export function OwnerShell({ children }: { children: React.ReactNode }) {
           <PortalLogo href="/portal/owner" sub="Owner portal" />
         </header>
         {open && (
-          <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Owner menu">
+          <div className="fixed inset-0 z-[70] lg:hidden" role="dialog" aria-modal="true" aria-label="Owner menu">
             <button className="absolute inset-0 bg-ink/70" onClick={() => setOpen(false)} aria-label="Close menu" />
-            <div className="absolute inset-y-0 left-0 w-72 bg-garnet p-5">
+            <div className="absolute inset-y-0 left-0 flex w-[min(18rem,85vw)] flex-col overflow-y-auto overscroll-contain bg-garnet p-5">
               <div className="mb-6 flex items-center justify-between">
                 <PortalLogo href="/portal/owner" sub="Owner portal" />
                 <button onClick={() => setOpen(false)} className="grid size-10 place-items-center text-champagne" aria-label="Close menu">
                   <X className="size-5" />
                 </button>
               </div>
-              {nav}
+              <div className="flex-1">{nav}</div>
+              <div className="mt-6">{extras}</div>
             </div>
           </div>
         )}

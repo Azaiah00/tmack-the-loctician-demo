@@ -52,11 +52,11 @@ export default function ServicesPage() {
       >
         <nav aria-label="Service categories" className="mt-8 flex flex-wrap gap-2">
           {groups.map((g) => (
-            <a key={g.c} href={`#${g.c.toLowerCase().replace(/\s/g, "-")}`} className="rounded-full border border-rose/30 px-4 py-2 text-sm text-champagne/85 hover:border-pink hover:text-pearl">
+            <a key={g.c} href={`#${g.c.toLowerCase().replace(/\s/g, "-")}`} className="inline-flex min-h-11 items-center rounded-full border border-rose/30 px-4 text-sm text-champagne/85 hover:border-pink hover:text-pearl">
               {g.c}
             </a>
           ))}
-          <a href="#add-ons" className="rounded-full border border-rose/30 px-4 py-2 text-sm text-champagne/85 hover:border-pink hover:text-pearl">
+          <a href="#add-ons" className="inline-flex min-h-11 items-center rounded-full border border-rose/30 px-4 text-sm text-champagne/85 hover:border-pink hover:text-pearl">
             Add-ons
           </a>
         </nav>
@@ -108,7 +108,7 @@ export default function ServicesPage() {
                       </div>
                       {s.addOnIds.length > 0 && (
                         <details className="group mt-5">
-                          <summary className="cursor-pointer list-none text-sm font-semibold text-rose hover:text-pink [&::-webkit-details-marker]:hidden">
+                          <summary className="inline-flex min-h-11 cursor-pointer list-none items-center text-sm font-semibold text-rose hover:text-pink [&::-webkit-details-marker]:hidden">
                             <span className="group-open:hidden">Show {s.addOnIds.length} available add-ons</span>
                             <span className="hidden group-open:inline">Hide add-ons</span>
                           </summary>

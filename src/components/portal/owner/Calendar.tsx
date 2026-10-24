@@ -64,7 +64,7 @@ export function OwnerCalendar() {
               <span className="flex items-center gap-1">
                 <Lock className="size-3" aria-hidden /> {b.label}
               </span>
-              <button onClick={() => removeBlock(b.id)} aria-label="Remove blocked time" className="text-champagne/50 hover:text-bad">
+              <button onClick={() => removeBlock(b.id)} aria-label="Remove blocked time" className="-m-1 p-1 text-champagne/50 hover:text-bad">
                 <Trash2 className="size-3" />
               </button>
             </div>
@@ -90,7 +90,7 @@ export function OwnerCalendar() {
               <span className="block font-semibold text-pearl">{fmtTime(a.start)}</span>
               <span className="block truncate text-pearl/90">{name(a.clientId)}</span>
               {!compact && h > 56 && <span className="block truncate text-champagne/70">{svc.name}</span>}
-              {a.status === "booked" && <span className="mt-0.5 inline-block rounded bg-warn/30 px-1 text-[9px] font-bold uppercase text-warn">Pending</span>}
+              {a.status === "booked" && <span className="mt-0.5 inline-block rounded bg-warn/30 px-1 text-[10px] font-bold uppercase text-warn">Pending</span>}
             </button>
           );
         })}
@@ -108,7 +108,7 @@ export function OwnerCalendar() {
             {days[0].toLocaleDateString("en-US", { month: "long", day: "numeric" })} – {days[6].toLocaleDateString("en-US", { month: "short", day: "numeric" })}
           </h1>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button onClick={() => setAnchor(addDays(anchor, -7))} className="grid size-11 place-items-center rounded-full border border-rose/25 text-champagne" aria-label="Previous week">
             <ChevronLeft className="size-5" />
           </button>

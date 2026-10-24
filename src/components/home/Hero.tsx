@@ -11,6 +11,18 @@ import { Sparkle } from "@/components/site/BrandIcons";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
+ * HERO_MODE
+ * - "loop":   plays on its own like a continuous video — she draws on, holds,
+ *             then turns (front → hand → profile → back → front) forever.
+ * - "scroll": the original pinned version where scrolling turns her around.
+ * Both use the exact same transition (fade out → new lines draw on → embossed
+ * still fades in → lines settle). Flip this one value to switch back.
+ */
+export const HERO_MODE: "loop" | "scroll" = "loop";
+const HOLD = 3.2; // seconds each pose is held in loop mode
+const K = 5; // loop seconds per scroll "segment" — keeps the scroll timing proportions
+
+/**
  * Signature hero: four line-art frames of a woman with locs, recolored to the
  * brand (rose-gold glitter on black-garnet). Each frame's line art is traced
  * into SVG paths that DRAW ON in glitter, then the embossed still fades in
@@ -30,6 +42,7 @@ export function Hero() {
   const stage = useRef<HTMLDivElement>(null);
   const [lines, setLines] = useState<(Lines | null)[]>([null, null, null, null]);
   const [active, setActive] = useState(0);
+  const [introDone, setIntroDone] = useState(false);
 
   // Load traced line art: first frame immediately, the rest after idle.
   useEffect(() => {
@@ -40,7 +53,7 @@ export function Hero() {
         .then((d: Lines) => alive && setLines((prev) => prev.map((p, j) => (j === i ? d : p))))
         .catch(() => {});
     load(0);
-    // Frames 2–4 load on first scroll/touch intent (or after 5s) to keep the first paint light.
+    // Frames 2–4 load on first scroll/touch intent (or after 5s, 1.5s in loop mode) to keep the first paint light.
     let started = false;
     const rest = () => {
       if (started) return;
@@ -49,7 +62,7 @@ export function Hero() {
     };
     const evs = ["scroll", "wheel", "touchstart", "pointerdown", "keydown"] as const;
     evs.forEach((e) => window.addEventListener(e, rest, { once: true, passive: true }));
-    const t = window.setTimeout(rest, 5000);
+    const t = window.setTimeout(rest, HERO_MODE === "loop" ? 1500 : 5000);
     return () => {
       alive = false;
       window.clearTimeout(t);
@@ -84,7 +97,7 @@ export function Hero() {
     }
     const ctx = gsap.context(() => {
       gsap.set(paths, { strokeDashoffset: (_i: number, el: SVGPathElement) => Number(el.dataset.len ?? 0) });
-      const tl = gsap.timeline({ delay: 0.2 });
+      const tl = gsap.timeline({ delay: 0.2, onComplete: () => setIntroDone(true) });
       tl.to(paths, { strokeDashoffset: 0, duration: 2.4, ease: "power2.inOut", stagger: { amount: 1.1, from: "start" } })
         .to(raster, { opacity: 1, duration: 1.6, ease: "power2.out" }, 1.9)
         .to(svg.querySelector(".lines"), { opacity: 0.22, duration: 1.4 }, 2.6);
@@ -92,9 +105,58 @@ export function Hero() {
     return () => ctx.revert();
   }, [lines[0]]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Scroll: she turns around (desktop + mobile), pinned stage.
+  // LOOP: continuous, video-like — same transition as the scroll version, driven by time.
   useEffect(() => {
-    if (!allLoaded || !root.current) return;
+    if (HERO_MODE !== "loop" || !allLoaded || !introDone || !root.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let tl: gsap.core.Timeline | null = null;
+    const ctx = gsap.context(() => {
+      const frames = gsap.utils.toArray<HTMLElement>("[data-frame]");
+      frames.forEach((f, i) => {
+        if (i === 0) return;
+        gsap.set(f.querySelectorAll("path.ln"), { strokeDashoffset: (_i: number, el: SVGPathElement) => Number(el.dataset.len ?? 0) });
+        gsap.set(f.querySelector(".raster"), { opacity: 0 });
+        gsap.set(f, { autoAlpha: 1 });
+      });
+      tl = gsap.timeline({ repeat: -1, defaults: { ease: "power1.inOut" } });
+      let t = HOLD - 1; // frame 0 was just drawn by the intro
+      const order = [1, 2, 3, 0];
+      order.forEach((ci, n) => {
+        const prev = frames[n === 0 ? 0 : order[n - 1]];
+        const cur = frames[ci];
+        // prepare the incoming frame (invisible) right before its turn
+        tl!.set(cur.querySelector("svg.draw"), { opacity: 1 }, t)
+          .set(cur.querySelector(".lines"), { opacity: 1 }, t)
+          .set(cur.querySelector(".raster"), { opacity: 0 }, t)
+          .set(cur.querySelectorAll("path.ln"), { strokeDashoffset: (_i: number, el: SVGPathElement) => Number(el.dataset.len ?? 0) }, t);
+        // identical choreography to the scroll version, scaled to seconds
+        tl!.to(prev.querySelector(".raster"), { opacity: 0, duration: 0.22 * K }, t)
+          .to(prev.querySelector("svg.draw"), { opacity: 0, duration: 0.22 * K }, t)
+          .to(cur.querySelectorAll("path.ln"), { strokeDashoffset: 0, duration: 0.26 * K, ease: "power2.inOut", stagger: { amount: 0.08 * K } }, t + 0.02 * K)
+          .to(cur.querySelector(".raster"), { opacity: 1, duration: 0.2 * K }, t + 0.26 * K)
+          .to(cur.querySelector(".lines"), { opacity: 0.22, duration: 0.15 * K }, t + 0.36 * K)
+          .call(() => setActive(ci), [], t + 0.15 * K);
+        t += 0.51 * K + HOLD;
+      });
+      tl.to({}, { duration: 0.01 }, t);
+      // slow "breathing" drift of the whole stage
+      gsap.to(stage.current, { scale: 1.04, duration: 12, ease: "sine.inOut", yoyo: true, repeat: -1 });
+    }, root);
+    // pause while off-screen or the tab is hidden
+    const io = new IntersectionObserver(([e]) => (e.isIntersecting ? tl?.resume() : tl?.pause()), { threshold: 0.05 });
+    io.observe(root.current);
+    const vis = () => (document.hidden ? tl?.pause() : tl?.resume());
+    document.addEventListener("visibilitychange", vis);
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", vis);
+      ctx.revert();
+    };
+  }, [allLoaded, introDone]);
+
+  // SCROLL: she turns around (desktop + mobile), pinned stage.
+  useEffect(() => {
+    if (HERO_MODE !== "scroll" || !allLoaded || !root.current) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
     const ctx = gsap.context(() => {
@@ -150,8 +212,8 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={root} aria-labelledby="hero-title" className="relative h-[100svh] motion-safe:h-[340vh] bg-ink">
-      <div className="sticky top-0 h-[100svh] overflow-hidden">
+    <section ref={root} aria-labelledby="hero-title" className={`relative min-h-[100svh] bg-ink ${HERO_MODE === "scroll" ? "motion-safe:h-[340vh]" : ""}`}>
+      <div className="sticky top-0 min-h-[100svh] overflow-hidden">
         {/* Stage */}
         <div ref={stage} className="absolute inset-x-[-2%] top-14 h-[52svh] will-change-transform [mask-image:linear-gradient(#000_72%,transparent)] lg:inset-y-[-2%] lg:left-[17%] lg:right-[-21%] lg:h-auto lg:[mask-image:none]">
           {FRAMES.map((f, i) => (
@@ -171,7 +233,7 @@ export function Hero() {
                   height={1340}
                 />
               </picture>
-              {lines[i] && <LineArt data={lines[i]!} id={f.key} glitter={i === active} delay={i === 0 && active === 0 ? 2.2 : 0.4} />}
+              {lines[i] && <LineArt data={lines[i]!} id={f.key} glitter={i === active} delay={i === 0 && !introDone ? 2.2 : 0.4} />}
             </div>
           ))}
           <noscript>
@@ -185,14 +247,17 @@ export function Hero() {
 
         {/* Readability veils */}
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(14,6,11,.55)_100%)]" />
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-ink via-ink/70 to-transparent lg:h-[40%]" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-ink via-ink/80 to-transparent lg:h-[40%]" />
         <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 hidden w-[45%] bg-gradient-to-r from-ink/90 via-ink/50 to-transparent lg:block" />
 
         {/* Copy */}
-        <div className="wrap relative flex h-full flex-col justify-end pb-24 pt-28 lg:justify-center lg:pb-0">
+        <div className="wrap relative flex min-h-[100svh] flex-col justify-end pb-24 pt-28 lg:justify-center lg:pb-0">
           <div className="max-w-xl">
-            <p className="eyebrow flex items-center gap-2 text-rose">
-              <Sparkle className="size-3 text-pink" /> Master Loctician · Midlothian, VA
+            <p className="eyebrow flex flex-wrap items-center gap-x-2 gap-y-1 text-rose">
+              <Sparkle className="size-3 text-pink" aria-hidden />
+              <span>Master Loctician</span>
+              <span aria-hidden className="hidden min-[420px]:inline">·</span>
+              <span className="basis-full pl-5 min-[420px]:basis-auto min-[420px]:pl-0">Midlothian, VA</span>
             </p>
             <h1 id="hero-title" className="display mt-4 text-[clamp(2.9rem,8.4vw,6.4rem)] text-pearl">
               Healthy locs
@@ -211,7 +276,7 @@ export function Hero() {
                 Shop Crown Care
               </Link>
             </div>
-            <a href={SITE.googleUrl} target="_blank" rel="noopener" className="mt-7 inline-flex items-center gap-3 text-sm text-champagne/85 hover:text-pearl">
+            <a href={SITE.googleUrl} target="_blank" rel="noopener" className="mt-5 inline-flex min-h-11 items-center gap-3 text-sm text-champagne/85 hover:text-pearl">
               <span className="flex text-pink" aria-hidden>
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="size-4 fill-current" />
@@ -236,7 +301,7 @@ export function Hero() {
           </div>
         </div>
         <div className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center text-champagne/60 motion-safe:flex">
-          <span className="eyebrow text-[0.6rem]">Scroll</span>
+          <span className="eyebrow text-[0.64rem]">Scroll</span>
           <ChevronDown className="size-4 animate-bounce" aria-hidden />
         </div>
       </div>

@@ -11,7 +11,7 @@ const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 export function OwnerSettings() {
   const settings = useDB((s) => s.settings);
   const [holiday, setHoliday] = useState("");
-  const input = "rounded-lg border border-rose/25 bg-ink/60 px-2 py-2 text-sm text-pearl focus:border-pink focus:outline-none";
+  const input = "rounded-lg border border-rose/25 bg-ink/60 min-h-11 px-2 py-2 text-sm text-pearl focus:border-pink focus:outline-none";
 
   return (
     <div className="space-y-6">
@@ -22,9 +22,9 @@ export function OwnerSettings() {
       </div>
 
       <Panel title="Service menu">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="text-xs uppercase tracking-[0.14em] text-champagne/50">
+        <div className="md:overflow-x-auto">
+          <table className="block w-full text-left text-sm md:table md:min-w-[640px]">
+            <thead className="hidden text-xs uppercase tracking-[0.14em] text-champagne/50 md:table-header-group">
               <tr>
                 <th scope="col" className="py-2 font-semibold">Service</th>
                 <th scope="col" className="py-2 font-semibold">Price ($)</th>
@@ -32,25 +32,27 @@ export function OwnerSettings() {
                 <th scope="col" className="py-2 font-semibold">Online</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-rose/10">
+            <tbody className="block divide-y divide-rose/10 md:table-row-group">
               {SERVICES.map((s) => {
                 const l = liveService(s, settings);
                 return (
-                  <tr key={s.id}>
-                    <td className="py-3 pr-3">
+                  <tr key={s.id} className="grid grid-cols-2 gap-x-3 gap-y-2 py-4 md:table-row md:py-0">
+                    <td className="col-span-2 md:py-3 md:pr-3">
                       <p className="text-pearl">{s.name}</p>
                       <p className="text-xs text-champagne/50">
                         {s.category} · now {fmtDuration(l.minutes)}
                       </p>
                     </td>
-                    <td className="py-3 pr-3">
-                      <input type="number" min={0} defaultValue={l.price} onBlur={(e) => { overrideService(s.id, { price: Number(e.target.value) }); toast(`${s.name}: price saved`); }} className={`${input} w-24`} aria-label={`${s.name} price`} />
+                    <td className="md:py-3 md:pr-3">
+                      <span className="mb-1 block text-xs text-champagne/50 md:hidden">Price ($)</span>
+                      <input type="number" min={0} defaultValue={l.price} onBlur={(e) => { overrideService(s.id, { price: Number(e.target.value) }); toast(`${s.name}: price saved`); }} className={`${input} w-full md:w-24`} aria-label={`${s.name} price`} />
                     </td>
-                    <td className="py-3 pr-3">
-                      <input type="number" min={15} step={15} defaultValue={l.minutes} onBlur={(e) => { overrideService(s.id, { minutes: Number(e.target.value) }); toast(`${s.name}: time saved`); }} className={`${input} w-24`} aria-label={`${s.name} minutes`} />
+                    <td className="md:py-3 md:pr-3">
+                      <span className="mb-1 block text-xs text-champagne/50 md:hidden">Minutes</span>
+                      <input type="number" min={15} step={15} defaultValue={l.minutes} onBlur={(e) => { overrideService(s.id, { minutes: Number(e.target.value) }); toast(`${s.name}: time saved`); }} className={`${input} w-full md:w-24`} aria-label={`${s.name} minutes`} />
                     </td>
-                    <td className="py-3">
-                      <label className="inline-flex cursor-pointer items-center gap-2">
+                    <td className="col-span-2 md:py-3">
+                      <label className="inline-flex min-h-11 cursor-pointer items-center gap-2">
                         <input type="checkbox" checked={l.active} onChange={(e) => overrideService(s.id, { active: e.target.checked })} className="size-5 accent-[#ff5aa8]" />
                         <span className="text-xs text-champagne/60">{l.active ? "Bookable" : "Hidden"}</span>
                       </label>
@@ -63,7 +65,7 @@ export function OwnerSettings() {
         </div>
       </Panel>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid [&>*]:min-w-0 gap-6 xl:grid-cols-2">
         <Panel title="Weekly hours">
           <ul className="space-y-2">
             {DAYS.map((d, i) => {
@@ -155,7 +157,7 @@ export function OwnerSettings() {
               {settings.holidays.map((h) => (
                 <li key={h} className="flex items-center gap-2 rounded-full bg-ink/50 px-3 py-1.5 text-xs text-champagne/85">
                   {fmtDate(h + "T12:00:00", { month: "short", day: "numeric", year: "numeric" })}
-                  <button onClick={() => updateSettings({ holidays: settings.holidays.filter((x) => x !== h) })} aria-label={`Remove ${h}`} className="text-champagne/50 hover:text-bad">
+                  <button onClick={() => updateSettings({ holidays: settings.holidays.filter((x) => x !== h) })} aria-label={`Remove ${h}`} className="-my-2 -mr-2 grid size-10 place-items-center text-champagne/50 hover:text-bad">
                     <Trash2 className="size-3.5" />
                   </button>
                 </li>

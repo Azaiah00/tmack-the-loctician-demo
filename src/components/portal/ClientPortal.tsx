@@ -95,7 +95,7 @@ export function ClientPortal() {
           Hey, loc queen <span className="text-rosegold">{me.first}</span>
         </h1>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-[1.4fr_1fr]">
+        <div className="mt-8 grid gap-5 [&>*]:min-w-0 lg:grid-cols-[1.4fr_1fr]">
           {/* Next appointment */}
           <section className="card-night relative overflow-hidden p-6 sm:p-7" aria-label="Next appointment">
             <div aria-hidden className="absolute -right-24 -top-24 size-72 rounded-full bg-magenta/20 blur-3xl" />
@@ -194,7 +194,7 @@ export function ClientPortal() {
           </ol>
         </section>
 
-        <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1fr]">
+        <div className="mt-5 grid gap-5 [&>*]:min-w-0 lg:grid-cols-[1fr_1fr]">
           {/* Rewards */}
           <section className="card-night p-6 sm:p-7" aria-labelledby="rewards">
             <div className="flex items-center justify-between">
@@ -237,7 +237,7 @@ export function ClientPortal() {
             <p className="mt-1 text-sm text-champagne/70">Hydrate, then seal. Reorder in one tap.</p>
             <div className="mt-5 grid gap-3">
               {[spritz, oil].map((p) => (
-                <div key={p.handle} className="flex items-center gap-4 rounded-2xl border border-rose/15 bg-ink/50 p-3">
+                <div key={p.handle} className="flex flex-wrap items-center gap-x-4 gap-y-3 rounded-2xl border border-rose/15 bg-ink/50 p-3">
                   <div className="relative size-16 shrink-0 overflow-hidden rounded-xl">
                     <Image src={p.image} alt="" fill sizes="64px" className="object-cover" />
                   </div>
@@ -245,7 +245,7 @@ export function ClientPortal() {
                     <p className="font-semibold text-pearl">{p.name}</p>
                     <p className="text-xs text-champagne/60">{p.size}</p>
                   </div>
-                  <button onClick={() => add(p.handle, p.variants[0].id)} className="btn btn-primary !min-h-10 !px-4 text-xs">
+                  <button onClick={() => add(p.handle, p.variants[0].id)} className="btn btn-primary !min-h-10 shrink-0 !px-4 text-xs max-[359px]:w-full">
                     <ShoppingBag className="size-4" aria-hidden /> {money(p.price)}
                   </button>
                 </div>
@@ -255,7 +255,7 @@ export function ClientPortal() {
         </div>
 
         {/* History + profile */}
-        <div className="mt-5 grid gap-5 lg:grid-cols-[1.4fr_1fr]">
+        <div className="mt-5 grid gap-5 [&>*]:min-w-0 lg:grid-cols-[1.4fr_1fr]">
           <section className="card-night p-6 sm:p-7" aria-labelledby="history">
             <h2 id="history" className="display text-3xl text-pearl">
               Visit history
@@ -271,7 +271,7 @@ export function ClientPortal() {
                 </li>
               ))}
             </ul>
-            <Link href="/portal/book" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-pink">
+            <Link href="/portal/book" className="mt-4 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-pink">
               Book again <ChevronRight className="size-4" aria-hidden />
             </Link>
           </section>

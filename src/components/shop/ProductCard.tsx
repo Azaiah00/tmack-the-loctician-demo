@@ -42,7 +42,7 @@ export function ProductCard({ p, tone = "dark", priority = false }: { p: Product
                 aria-checked={variant === v.id}
                 onClick={() => setVariant(v.id)}
                 className={cn(
-                  "min-h-8 rounded-full border px-3 text-xs transition",
+                  "min-h-10 rounded-full border px-3.5 text-xs transition",
                   variant === v.id
                     ? "border-pink bg-pink/15 text-pink"
                     : tone === "dark"
@@ -55,14 +55,14 @@ export function ProductCard({ p, tone = "dark", priority = false }: { p: Product
             ))}
           </div>
         )}
-        <div className="mt-auto flex items-center justify-between gap-2 pt-4">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-4">
           <span className={cn("display text-2xl tabular-nums", tone === "dark" ? "text-pearl" : "text-cocoa")}>{fmtMoney(p.price)}</span>
           <button
             onClick={() => add(p.handle, variant)}
-            className="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-gradient-to-r from-magenta to-pink px-4 text-sm font-semibold text-pearl shadow-[0_8px_20px_-8px_rgba(224,33,138,.7)] transition hover:-translate-y-0.5"
+            className="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-magenta to-pink px-4 text-sm font-semibold text-pearl shadow-[0_8px_20px_-8px_rgba(224,33,138,.7)] transition hover:-translate-y-0.5"
             aria-label={`Add ${p.name} to bag`}
           >
-            <Plus className="size-4" aria-hidden /> Add
+            <Plus className="size-4 shrink-0" aria-hidden /> Add
           </button>
         </div>
       </div>

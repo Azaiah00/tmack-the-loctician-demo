@@ -18,13 +18,13 @@ export function DemoBanner() {
 
 export function PortalLogo({ href = "/portal", sub = "Booking Portal" }: { href?: string; sub?: string }) {
   return (
-    <Link href={href} className="flex items-center gap-3">
-      <span className="relative size-10 overflow-hidden rounded-full ring-1 ring-rose/50">
+    <Link href={href} className="flex min-w-0 items-center gap-3">
+      <span className="relative size-10 shrink-0 overflow-hidden rounded-full ring-1 ring-rose/50">
         <Image src="/media/brand/tmack-logo.webp" alt="" fill sizes="40px" className="object-cover" />
       </span>
       <span className="leading-none">
         <span className="display block text-2xl text-rosegold">TMack</span>
-        <span className="eyebrow block text-[0.52rem] text-champagne/70">{sub}</span>
+        <span className="eyebrow block whitespace-nowrap text-[0.62rem] tracking-[0.22em] text-champagne/70 min-[400px]:tracking-[0.32em]">{sub}</span>
       </span>
     </Link>
   );
@@ -65,12 +65,12 @@ export function StatusBadge({ s }: { s: ApptStatus }) {
 
 export function Stat({ label, value, sub, icon: Icon, tone }: { label: string; value: string; sub?: React.ReactNode; icon?: React.ComponentType<{ className?: string }>; tone?: "pink" | "rose" }) {
   return (
-    <div className="card-night p-5">
-      <div className="flex items-center justify-between">
+    <div className="card-night min-w-0 p-4 sm:p-5">
+      <div className="flex items-center justify-between gap-2">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-champagne/60">{label}</p>
         {Icon && <Icon className={cn("size-4", tone === "rose" ? "text-rose" : "text-pink")} />}
       </div>
-      <p className="display mt-2 text-4xl tabular-nums text-pearl">{value}</p>
+      <p className="display mt-2 break-words text-3xl tabular-nums text-pearl sm:text-4xl">{value}</p>
       {sub && <p className="mt-1 text-xs text-champagne/60">{sub}</p>}
     </div>
   );
@@ -78,8 +78,8 @@ export function Stat({ label, value, sub, icon: Icon, tone }: { label: string; v
 
 export function Panel({ title, action, children, className }: { title: string; action?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <section className={cn("card-night p-5 sm:p-6", className)} aria-label={title}>
-      <div className="mb-4 flex items-center justify-between gap-4">
+    <section className={cn("card-night min-w-0 p-5 sm:p-6", className)} aria-label={title}>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
         <h2 className="display text-2xl text-pearl">{title}</h2>
         {action}
       </div>

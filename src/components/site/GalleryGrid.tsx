@@ -7,6 +7,8 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { WORK } from "@/lib/gallery";
 import { cn } from "@/lib/cn";
 
+// Type labels/filters are hidden until TMack confirms which service each photo shows.
+const SHOW_TAGS = false;
 const TAGS = ["All", "Retwist", "Microlocs", "Interlocking", "Styles", "Reconstruction"] as const;
 
 export function GalleryGrid() {
@@ -33,7 +35,7 @@ export function GalleryGrid() {
 
   return (
     <>
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Filter gallery">
+      {SHOW_TAGS && <div className="flex flex-wrap gap-2" role="group" aria-label="Filter gallery">
         {TAGS.map((t) => (
           <button
             key={t}
@@ -44,12 +46,12 @@ export function GalleryGrid() {
             {t}
           </button>
         ))}
-      </div>
-      <div className="mt-8 columns-2 gap-4 md:columns-3 lg:gap-5">
+      </div>}
+      <div className={cn(SHOW_TAGS && "mt-8", "columns-2 gap-4 md:columns-3 lg:gap-5")}>
         {list.map((w, i) => (
           <button key={w.src} onClick={() => setIdx(i)} className="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl lg:mb-5" aria-label={`Open photo: ${w.alt}`}>
             <Image src={w.src} alt={w.alt} width={1200} height={1490} sizes="(max-width: 768px) 50vw, 33vw" className="h-auto w-full transition-transform duration-[1.2s] group-hover:scale-[1.04]" />
-            <span className="absolute bottom-3 left-3 rounded-full bg-pearl/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-cocoa">{w.tag}</span>
+            {SHOW_TAGS && <span className="absolute bottom-3 left-3 rounded-full bg-pearl/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-cocoa">{w.tag}</span>}
           </button>
         ))}
       </div>
@@ -65,7 +67,6 @@ export function GalleryGrid() {
             </button>
             <figure className="relative h-[80vh] w-full max-w-3xl">
               <Image src={list[idx].src} alt={list[idx].alt} fill sizes="90vw" className="object-contain" />
-              <figcaption className="absolute -bottom-8 inset-x-0 text-center text-sm text-champagne/80">{list[idx].alt}</figcaption>
             </figure>
             <button onClick={() => step(1)} className="absolute right-2 top-1/2 grid size-12 -translate-y-1/2 place-items-center rounded-full text-pearl hover:bg-white/10 sm:right-6" aria-label="Next photo">
               <ChevronRight className="size-7" />

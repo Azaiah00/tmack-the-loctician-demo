@@ -77,10 +77,10 @@ export function ApptDrawer({ appt, onClose }: { appt: Appointment | null; onClos
 
           {c && (
             <div className="grid gap-2">
-              <a href={`tel:${c.phone}`} className="flex items-center gap-2 text-champagne/80 hover:text-pearl">
+              <a href={`tel:${c.phone}`} className="flex min-h-10 items-center gap-2 text-champagne/80 hover:text-pearl">
                 <Phone className="size-4 text-rose" aria-hidden /> {c.phone}
               </a>
-              <a href={`mailto:${c.email}`} className="flex items-center gap-2 text-champagne/80 hover:text-pearl">
+              <a href={`mailto:${c.email}`} className="flex min-h-10 items-center gap-2 break-all text-champagne/80 hover:text-pearl">
                 <Mail className="size-4 text-rose" aria-hidden /> {c.email}
               </a>
               <p className="flex items-center gap-2 text-champagne/80">
@@ -124,7 +124,7 @@ export function ApptDrawer({ appt, onClose }: { appt: Appointment | null; onClos
                 <p className="font-semibold text-pearl">Check out · collect {money(balance)}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {(["Apple Pay", "Cash App", "PayPal", "Klarna", "Affirm"] as PayMethod[]).map((m) => (
-                    <button key={m} onClick={() => setMethod(m)} aria-pressed={method === m} className={`min-h-9 rounded-full border px-3 text-xs ${method === m ? "border-ok bg-ok/15 text-ok" : "border-rose/25 text-champagne/75"}`}>
+                    <button key={m} onClick={() => setMethod(m)} aria-pressed={method === m} className={`min-h-10 rounded-full border px-3.5 text-xs ${method === m ? "border-ok bg-ok/15 text-ok" : "border-rose/25 text-champagne/75"}`}>
                       {m}
                     </button>
                   ))}

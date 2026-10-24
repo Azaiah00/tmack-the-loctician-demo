@@ -149,7 +149,7 @@ export default function HomePage() {
                   </div>
                   <Link
                     href={BOOK_HREF.startsWith("/") ? `${BOOK_HREF}?service=${s.id}` : BOOK_HREF}
-                    className="mt-6 inline-flex items-center gap-2 self-start text-sm font-semibold text-pink transition-all hover:gap-3"
+                    className="mt-6 inline-flex min-h-11 items-center gap-2 self-start text-sm font-semibold text-pink transition-all hover:gap-3"
                   >
                     Book this service <ArrowRight className="size-4" aria-hidden />
                   </Link>
@@ -220,7 +220,7 @@ export default function HomePage() {
             </div>
             <div className="absolute -bottom-6 -right-2 rounded-2xl border border-rose/30 bg-ink/90 px-5 py-4 backdrop-blur sm:-right-8">
               <p className="font-[family-name:var(--font-script)] text-3xl leading-none text-rosegold">TMack</p>
-              <p className="eyebrow mt-1 text-[0.58rem] text-champagne/70">Master Loctician</p>
+              <p className="eyebrow mt-1 text-[0.64rem] text-champagne/70">Master Loctician</p>
             </div>
           </div>
           <div>
@@ -286,7 +286,6 @@ export default function HomePage() {
             {WORK.slice(0, 6).map((w, i) => (
               <figure key={w.src} className="reveal group relative mb-4 break-inside-avoid overflow-hidden rounded-2xl lg:mb-5" data-delay={(i % 3) * 80}>
                 <Image src={w.src} alt={w.alt} width={1200} height={1490} sizes="(max-width: 768px) 50vw, 33vw" className="h-auto w-full transition-transform duration-[1.2s] group-hover:scale-[1.04]" />
-                <figcaption className="absolute bottom-3 left-3 rounded-full bg-pearl/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-cocoa">{w.tag}</figcaption>
               </figure>
             ))}
           </div>

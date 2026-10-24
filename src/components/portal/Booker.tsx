@@ -112,7 +112,7 @@ export function Booker() {
                   onClick={() => i < step && go(i)}
                   disabled={i > step}
                   className={cn(
-                    "flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold transition",
+                    "flex min-h-10 items-center gap-2 rounded-full px-3 text-xs font-semibold transition",
                     i === step ? "bg-pink/15 text-pink" : i < step ? "text-champagne/80 hover:text-pearl" : "text-champagne/35",
                   )}
                   aria-current={i === step ? "step" : undefined}
@@ -124,8 +124,9 @@ export function Booker() {
               </li>
             ))}
           </ol>
-          <p className="ml-auto text-xs text-champagne/70 md:hidden">
-            Step {step + 1} of 5 · <span className="text-pearl">{STEPS[step]}</span>
+          <p className="ml-auto shrink-0 text-right text-xs leading-tight text-champagne/70 md:hidden">
+            Step {step + 1} of 5
+            <span className="block whitespace-nowrap text-pearl">{STEPS[step]}</span>
           </p>
         </div>
         <div className="h-0.5 bg-rose/10">
@@ -371,7 +372,7 @@ export function Booker() {
             </button>
           )}
           <div className="min-w-0 flex-1">
-            <p className="truncate text-xs text-champagne/60">{svc ? svc.name : "No service selected"}</p>
+            <p className="line-clamp-2 text-xs leading-snug text-champagne/60">{svc ? svc.name : "No service selected"}</p>
             <p className="text-sm text-pearl">
               {q ? (
                 <>
